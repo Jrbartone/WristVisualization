@@ -18,6 +18,14 @@ const uncutLength = 1;   //   [mm] spacing between cuts
 const cutoutHeight = 1;  //   [mm] height of the cutout (length of the cut)
 const cutoutWidth = 1.6; //   [mm] width of the cutout (depth of the cut)
 
+const IID = 1.3;          //   [mm] tube inner diameter
+const IOD = 1.5;          //   [mm] tube outer diameter
+const IbaseLength = 0;    //   [mm] length of the robot before notches
+const InCutouts = 4;      //   total number of cutouts
+const IuncutLength = 1;   //   [mm] spacing between cuts
+const IcutoutHeight = 1;  //   [mm] height of the cutout (length of the cut)
+const IcutoutWidth = 1.4; //   [mm] width of the cutout (depth of the cut)
+
 function forwardKinematics(tDispl, tubeRot, tubeAdv) {        
     let result = [[1, 0, 0, 0],
                   [0, 1, 0, 0],
@@ -60,6 +68,23 @@ function kinematicsPoints(tDispl, tubeRot, tubeAdv) {
     return result;
 }
 
+function innerKinematicsPoints(tDispl, tubeRot, tubeAdv) {
+    let result = [];
+    result[0] = [0,0,0];
+    let currentMatrix = zRotation(tubeRot);
+    currentMatrix = mmultiply(currentMatrix, zTranslation(tubeAdv));
+    result[1] = coordinates(currentMatrix);
+    currentMatrix = mmultiply(currentMatrix, zTranslation(IbaseLength));
+    result[2] = coordinates(currentMatrix);
+
+    let notch = innerNotchKinematics(tDispl);
+    for (let i = 3; i < InCutouts + 3; i++) {
+        currentMatrix = mmultiply(currentMatrix, notch);
+        result[i] = coordinates(currentMatrix);
+    }
+    return result;
+}
+
 // Returns angles to rotate in [x, y, z] for given notch kinematics
 function rotations(tDispl, tubeRot, tubeAdv) {
     let result = [];
@@ -67,6 +92,17 @@ function rotations(tDispl, tubeRot, tubeAdv) {
     result[1] = [0, 0, 0];
     let notchAngle = Math.acos(notchKinematics(tDispl)[0][0]);
     for (let i = 2; i < nCutouts + 2; i++) {
+        result[i] = [0, notchAngle, 0];
+    }
+    return result;
+}
+
+function innerRotations(tDispl, tubeRot, tubeAdv) {
+    let result = [];
+    result[0] = [0, 0, tubeRot];
+    result[1] = [0, 0, 0];
+    let notchAngle = Math.acos(innerNotchKinematics(tDispl)[0][0]);
+    for (let i = 2; i < InCutouts + 2; i++) {
         result[i] = [0, notchAngle, 0];
     }
     return result;
@@ -124,6 +160,37 @@ function notchKinematics(tDispl) {
     
     // uncut portion of notch
     let tUncut = zTranslation(uncutLength);
+
+    return mmultiply(tCut, tUncut);
+}
+
+function innerNotchKinematics(tDispl) {
+    let RI = IID / 2;
+    let RO = IOD / 2;
+
+    let phiO = 2 * Math.acos((IcutoutWidth - RO) / RO);
+    let phiI = 2 * Math.acos((IcutoutWidth - RO) / RI);
+
+    let aO = Math.pow(RO, 2) * (phiO - Math.sin(phiO)) / 2;
+    let aI = Math.pow(RI, 2) * (phiI - Math.sin(phiI)) / 2;
+
+    let yBarO = 4 * RO * Math.pow((Math.sin(0.5 * phiO)), 3) / (3 * (phiO - Math.sin(phiO)));
+    let yBarI = 4 * RI * Math.pow((Math.sin(0.5 * phiI)), 3) / (3 * (phiI - Math.sin(phiI)));
+
+    let yBar = (yBarO * aO - yBarI * aI) / (aO - aI);
+
+    let kappa = tDispl / (IcutoutHeight * (RI + yBar) - tDispl * yBar);
+
+    let s = IcutoutHeight / (1 + yBar * kappa);
+
+    // cut portion of notch
+    let tCut = [[Math.cos(kappa * s),   0, Math.sin(kappa * s), (1 - Math.cos(kappa * s)) / kappa],
+        [0,                     1, 0,                   0],
+        [-Math.sin(kappa * s),  0, Math.cos(kappa * s), Math.sin(kappa * s) / kappa],
+        [0,                     0, 0,                   1]];
+
+    // uncut portion of notch
+    let tUncut = zTranslation(IuncutLength);
 
     return mmultiply(tCut, tUncut);
 }
