@@ -54,12 +54,12 @@ function settingsInit() {
 		Distances are in millimeters.<br/>Angles are in degrees.`
   );
   settings.addHTML("Sensor Status", "Sensor Not Connected!");
-  //settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, outerMotion);
-  //settings.bindRange("advancement", 0, 22.5, 0, 0.1, outerMotion);
-  //settings.bindRange("rotation", 0, 360, 0, 1, outerMotion);
-  //settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, innerMotion);
-  //settings.bindRange("advancement", 0, 22.5, 0, 0.1, innerMotion);
-  //settings.bindRange("rotation", 0, 360, 0, 1, innerMotion);
+  settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, outerMotion);
+  settings.bindRange("advancement", 0, 22.5, 0, 0.1, outerMotion);
+  settings.bindRange("rotation", 0, 360, 0, 1, outerMotion);
+  settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, innerMotion);
+  settings.bindRange("advancement", 0, 22.5, 0, 0.1, innerMotion);
+  settings.bindRange("rotation", 0, 360, 0, 1, innerMotion);
   settings.addText("Load STL");
   //settings.addButton("Load STL", () => console.log(gui.getValue("Date")));
   settings.addButton("Change End Effector", () => console.log(gui.getValue("Date")));
@@ -116,9 +116,12 @@ function tubeControl(e) {
 function draw() {
   background("white");
   orbitControl();
-  stroke("#000000");
-
+  stroke("#DDDDDD");
+  fill(255,255,255,50);
+  rotateZ(1.14)
   model(task_space)
+  rotateZ(-1.14);
+  
   translate(0, (windowHeight / 2) * 0.95);
   let scaleFactor = windowHeight / 60;
   scale(scaleFactor);
@@ -155,6 +158,7 @@ function draw() {
     rotateY(rotation[2]);
     rotateZ(rotation[1]);
     stroke("#8DD3C7");
+    fill(255,255,255,255);
     // p5.js uses the center of the object as its origin, therefore
     // we translate half the length before and after
     translate(0, -distance(start, end) / 2);
