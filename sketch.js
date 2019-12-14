@@ -48,61 +48,63 @@ function settingsInit() {
   settings = QuickSettings.create(0, 0, " ");
   settings.setKey("h");
   settings.addHTML(
-    "SCREAM Visualization",
+    "SCREAM 2 Visualization",
     `2019-20 <a href="https://wpi.edu">WPI</a> MQP.<br />
 		Distances are in millimeters.<br/>Angles are in degrees.`
   );
   settings.addHTML("Sensor Status", "Sensor Not Connected!");
-  settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, outerMotion);
-  settings.bindRange("advancement", 0, 22.5, 0, 0.1, outerMotion);
-  settings.bindRange("rotation", 0, 360, 0, 1, outerMotion);
-  settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, innerMotion);
-  settings.bindRange("advancement", 0, 22.5, 0, 0.1, innerMotion);
-  settings.bindRange("rotation", 0, 360, 0, 1, innerMotion);
-  settings.addButton("", () => console.log(gui.getValue("Date")));
+  //settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, outerMotion);
+  //settings.bindRange("advancement", 0, 22.5, 0, 0.1, outerMotion);
+  //settings.bindRange("rotation", 0, 360, 0, 1, outerMotion);
+  //settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, innerMotion);
+  //settings.bindRange("advancement", 0, 22.5, 0, 0.1, innerMotion);
+  //settings.bindRange("rotation", 0, 360, 0, 1, innerMotion);
+  settings.addText("Load STL");
+  //settings.addButton("Load STL", () => console.log(gui.getValue("Date")));
+  settings.addButton("Change End Effector", () => console.log(gui.getValue("Date")));
 }
 
 document.addEventListener("keypress", tubeControl);
 function tubeControl(e) {
   switch (e.key) {
-    case "w":
+    case "`":
       outerMotion.advancement = outerMotion.advancement + 0.1;
       break;
-    case "s":
+    case "~":
       outerMotion.advancement = outerMotion.advancement - 0.1;
       break;
-    case "a":
+    case "!":
       outerMotion.rotation = outerMotion.rotation + 10;
       break;
-    case "d":
+    case "@":
       outerMotion.rotation = outerMotion.rotation - 10;
       break;
-    case "q":
+    case "#":
       if (outerMotion.displacement > 0) {
         outerMotion.displacement = outerMotion.displacement - 0.01;
       }
       break;
-    case "e":
+    case "$":
       outerMotion.displacement = outerMotion.displacement + 0.01;
       break;
-    case "i":
+    case "%":
       innerMotion.advancement = innerMotion.advancement + 0.1;
       break;
-    case "k":
+    case "^":
       innerMotion.advancement = innerMotion.advancement - 0.1;
       break;
-    case "l":
+    case "&":
       innerMotion.rotation = innerMotion.rotation + 10;
       break;
-    case "j":
+    case "*":
       innerMotion.rotation = innerMotion.rotation - 10;
       break;
-    case "u":
+    case "{":
       if (innerMotion.displacement > 0) {
         innerMotion.displacement = innerMotion.displacement - 0.01;
       }
       break;
-    case "o":
+    case "}":
       innerMotion.displacement = innerMotion.displacement + 0.01;
       break;
   }
