@@ -120,13 +120,14 @@ function draw() {
   fill(255,255,255,50);
   rotateZ(1.57)
   translate(0,200,-25)
+  scale(2)
   model(task_space)
   rotateZ(-1.57);
   translate(0,-200,25)
 
-  
+  scale(1)
   translate(0, (windowHeight / 2) * 0.95);
-  let scaleFactor = windowHeight / 50;
+  let scaleFactor = windowHeight / 120;
   scale(scaleFactor);
   
 
