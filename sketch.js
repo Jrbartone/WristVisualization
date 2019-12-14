@@ -45,7 +45,7 @@ function setup() {
 }
 
 function settingsInit() {
-  settings = QuickSettings.create(0, 0, "Wrist Control");
+  settings = QuickSettings.create(0, 0, " ");
   settings.setKey("h");
   settings.addHTML(
     "SCREAM Visualization",
@@ -59,6 +59,7 @@ function settingsInit() {
   settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, innerMotion);
   settings.bindRange("advancement", 0, 22.5, 0, 0.1, innerMotion);
   settings.bindRange("rotation", 0, 360, 0, 1, innerMotion);
+  settings.addButton("", () => console.log(gui.getValue("Date")));
 }
 
 document.addEventListener("keypress", tubeControl);
