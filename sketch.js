@@ -118,12 +118,15 @@ function draw() {
   orbitControl();
   stroke("#DDDDDD");
   fill(255,255,255,50);
-  rotateZ(1.14)
+  rotateZ(1.57)
+  translate(0,200,-25)
   model(task_space)
-  rotateZ(-1.14);
+  rotateZ(-1.57);
+  translate(0,-200,25)
+
   
   translate(0, (windowHeight / 2) * 0.95);
-  let scaleFactor = windowHeight / 60;
+  let scaleFactor = windowHeight / 50;
   scale(scaleFactor);
   
 
