@@ -111,7 +111,7 @@ function draw() {
   background("white");
   orbitControl();
   translate(0, (windowHeight / 2) * 0.95);
-  let scaleFactor = windowHeight / 40;
+  let scaleFactor = windowHeight / 60;
   scale(scaleFactor);
   let radians = (outerMotion.rotation * PI) / 180.0;
   let points = kinematicsPoints(
