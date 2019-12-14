@@ -109,7 +109,7 @@ function tubeControl(e) {
 
 function draw() {
   background("white");
-
+  orbitControl();
   translate(0, (windowHeight / 2) * 0.95);
   let scaleFactor = windowHeight / 40;
   scale(scaleFactor);
