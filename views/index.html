@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SCREAM 2 MQP Wrist Visualization</title>
+    <!-- Import libraries... -->
+    <script src="../libs/p5.min.js" type="text/javascript"></script>
+    <!-- library for vis -->
+    <script src="../libs/quicksettings.min.js" type="text/javascript"></script>
+    <script
+      src="../libs/reconnecting-websocket.js"
+      type="text/javascript"
+    ></script>
+
+    <!-- End libraries... -->
+
+    <script src="../wrist.js" type="text/javascript"></script>
+    <!-- wrist kinematics -->
+
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+    <!-- end styles -->
+  </head>
+  <body>
+    <script type="text/javascript">
+      const scale_num = (num, in_min, in_max, out_min, out_max) => {
+        return (
+          ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+        );
+      };
+
+      function startConnection() {
+        var ws = new ReconnectingWebSocket("ws://192.168.4.1:81/");
+        ws.reconnectInterval = 500;
+        ws.reconnectDelay = 1;
+        ws.onopen = function(event) {
+          settings.setValue("Sensor Status", "Sensor Connected!");
+        };
+        ws.onclose = function(event) {
+          settings.setValue("Sensor Status", "Sensor Disconnected!");
+        };
+        ws.onerror = function(event) {
+          settings.setValue("Sensor Status", "Sensor Server Not Found!");
+        };
+        ws.onmessage = function(event) {
+          let data = JSON.parse(event.data);
+          console.log(data);
+          settings.setValue(
+            "rotation",
+            scale_num(data["rotation"], 220, 220 + 4095 / 2, 0, 360) % 360
+          );
+          settings.setValue(
+            "advancement",
+            scale_num(data["advancement"], 4095, -5760, 0, 22.5)
+          );
+          ws.send(settings.getValue("displacement"));
+        };
+      }
+    </script>
+    <script src="../sketch.js" type="text/javascript"></script>
+    <!-- wrist visualization -->
+  </body>
+</html>
