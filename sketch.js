@@ -112,6 +112,8 @@ function tubeControl(e) {
 
 function draw() {
   background("white");
+  
+  
   orbitControl();
   translate(0, (windowHeight / 2) * 0.95);
   let scaleFactor = windowHeight / 60;
@@ -138,6 +140,12 @@ function draw() {
     innerRadians,
     innerMotion.advancement
   );
+  
+   //task_space = loadModel('https://cdn.glitch.com/f3ff0ad9-695c-4f6c-adaf-6d5cd0abb815%2Fsynthetic-model-finer-cropped.stl?v=1576357802184', true);
+  //task_space = loadModel('assets/' + settings.getValue("Load STL"));
+ // model(task_space);
+  
+  
   for (let i = 1; i < points.length; i++) {
     let start = points[i - 1];
     let end = points[i];
