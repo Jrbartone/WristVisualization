@@ -148,8 +148,9 @@ function transformTubePoints(p, dist, start){
 function checkForCollision(p){
   for(let i = 0; i < p.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
-      if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 10 ){
+      if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 90 ){
         print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]))
         return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
       }
       else{
