@@ -168,16 +168,16 @@ function draw() {
   stroke("#447825");
   //DEBUG POINT TRANSFORMATION FUNCTIONS
   
-  beginShape(POINTS);
-  for(let i = 0; i < task_space_v.length; i = i + 5){
+  //beginShape(POINTS);
+  //for(let i = 0; i < task_space_v.length; i = i + 5){
     //vertex(task_space_v[i][0],task_space_v[i][1],task_space_v[i][2])
-  }
-  endShape();
+  //}
+  //endShape();
   //stroke("#000000");
   //beginShape(POINTS);
  // for(let i = 0; i < task_space.vertices.length; i = i + 5){
     //vertex(task_space.vertices[i].x,task_space.vertices[i].y,task_space.vertices[i].z)
-//  }
+  //  }
  // endShape();
   
   
@@ -300,8 +300,8 @@ function draw() {
     vertex(newInnerPoints[i][0],newInnerPoints[i][1],newInnerPoints[i][2])
   }
   endShape();
-  
-  let vc = checkForCollision(newPoints);
+  let allPoints = [newPoints, ]
+  let vc = checkForCollision(newPoints + newInnerPoints);
   if(vc){
     print(vc)
       strokeWeight(100);
