@@ -139,8 +139,12 @@ function transformVertices(){
 function checkForCollision(points, innerPoints){
   for(let i = 0; i < points.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
-      if ( dist(points[i][0], points[i][1], points[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 1 ){
-        print("COLLISION")
+      if ( dist(points[i][0], points[i][1], points[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 90 ){
+        print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
+      }
+      else{
+        //print("OK")
       }
     }
   }
@@ -256,15 +260,21 @@ function draw() {
       translate(0, -distance(start, end) / 2);
     }
   }
-  checkForCollision(points,innerPoints);
-  
-  //DEBUG TUBE POINT TRANSFORMATION
-  beginShape(POINTS);
-  stroke("#ff69b4");
-  for(let i = 0; i < points.length; i++){
-    //vertex(points[i][0],points[i][1],points[i][2])
+  let vc = checkForCollision(points,innerPoints);
+  if(vc){
+      beginShape(POINTS);
+      stroke("#ff69b4");
+      vertex(vc[0],vc[1],vc[2]);
+      endShape();
   }
-  endShape();
+ 
+  //DEBUG TUBE POINT TRANSFORMATION
+  //beginShape(POINTS);
+  //stroke("#ff69b4");
+  //for(let i = 0; i < points.length; i++){
+    //vertex(points[i][0],points[i][1],points[i][2])
+  //}
+  //endShape();
     
 }
 
