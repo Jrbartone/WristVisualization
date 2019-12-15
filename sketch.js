@@ -118,27 +118,17 @@ function tubeControl(e) {
 
 
 function transformVertices(){
-  // 1) Make every vertex into a 4x4 T matrix, say V
-  // 2) Encode the scale x2, z rotation, and YZ translation into a T matrix, say T
-  // 3) Multiply V*T and grab XYZ points from resultant matrix
-  // 4) Add those points to a new matrix of vertices to compare for collisions
-  let new_T,new_V
+
+  let theta = 1.57;
+  
+  
+  let new_V
   new_V = new Array(task_space.vertices.length)
-  let T = [[0,-1,0,0],
-           [1,0,0,200],
-           [0,0,1,-25],
-           [0,0,0,2],
-          ];
-  print(task_space.vertices.length)
   for(let i = 0; i < task_space.vertices.length; i++){
-    
-    let V = [[1,0,0,task_space.vertices[i].x],
-          [0,1,0,task_space.vertices[i].y],
-          [0,0,1,task_space.vertices[i].z],
-          [0,0,0,1],
-       ];
-    let new_T = mmultiply(V,T);
-    new_V[i] = [new_T[0][3], new_T[1][3], new_T[2][3]];
+    let X = task_space.vertices[i].x*cos(theta) - task_space.vertices[i].y*sin(theta);
+    let Y = task_space.vertices[i].x*sin(theta) + task_space.vertices[i].y*cos(theta);
+    let Z = task_space.vertices[i].z;
+    new_V[i] = [(2*X)-200,(2*Y),(2*Z)];
   }
   
   return new_V
@@ -149,7 +139,7 @@ function transformVertices(){
 function checkForCollision(points, innerPoints){
   for(let i = 0; i < points.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
-      if ( dist(points[i][0], points[i][1], points[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 50 ){
+      if ( dist(points[i][0], points[i][1], points[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 1 ){
         print("COLLISION")
       }
     }
@@ -159,23 +149,23 @@ function checkForCollision(points, innerPoints){
 function draw() {
   background("white");
   orbitControl();
-  strokeWeight(3);
-  stroke("#447825");
-
+  
+  //strokeWeight(3);
+  //stroke("#447825");
+  //DEBUG POINT TRANSFORMATION FUNCTIONS
+  /*
   beginShape(POINTS);
   for(let i = 0; i < task_space_v.length; i = i + 5){
-    vertex(task_space_v[i][0],task_space_v[i][1],task_space_v[i][2])
+    //vertex(task_space_v[i][0],task_space_v[i][1],task_space_v[i][2])
   }
   endShape();
-  
-  
   stroke("#000000");
   beginShape(POINTS);
   for(let i = 0; i < task_space.vertices.length; i = i + 5){
-    vertex(task_space.vertices[i].x,task_space.vertices[i].y,task_space.vertices[i].z)
+    //vertex(task_space.vertices[i].x,task_space.vertices[i].y,task_space.vertices[i].z)
   }
   endShape();
-  
+  */
   
   strokeWeight(2);
   stroke("#DDDDDD");
@@ -266,11 +256,13 @@ function draw() {
       translate(0, -distance(start, end) / 2);
     }
   }
-  //checkForCollision(points,innerPoints);
+  checkForCollision(points,innerPoints);
+  
+  //DEBUG TUBE POINT TRANSFORMATION
   beginShape(POINTS);
-  stroke("#AAAAAA");
+  stroke("#ff69b4");
   for(let i = 0; i < points.length; i++){
-    vertex(points[i][0],points[i][1],points[i][2])
+    //vertex(points[i][0],points[i][1],points[i][2])
   }
   endShape();
     
