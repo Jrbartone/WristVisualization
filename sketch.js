@@ -286,9 +286,9 @@ function draw() {
   beginShape(POINTS);
   stroke("#ff69b4");
   strokeWeight(10);
-  newPoints = transformTubePoints(points, outerMotion.advancement + );
+  newPoints = transformTubePoints(points, outerMotion.advancement + 12);
 
-  for(let i = 0; i < points.length; i++){
+  for(let i = newPoints.length; i ; i++){
     vertex(newPoints[i][0],newPoints[i][1],newPoints[i][2]);
   }
 //  for(let i = 0; i < innerPoints.length; i++){
