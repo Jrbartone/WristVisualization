@@ -1,4 +1,5 @@
 /*jshint esversion: 6 */
+
 transpose = a => a[0].map((x, i) => a.map(y => y[i]));
 mmultiply = (a, b) => a.map(x => transpose(b).map(y => dotproduct(x, y)));
 dotproduct = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
@@ -32,7 +33,7 @@ var innerMotion = {
 };
 
 var settings;
-let notch, task_space, task_space_v, tube_points;
+let notch, task_space, task_space_v, tube_points, tf;
 
 function preload() {
   notch = loadModel("SingleNotch.obj");
@@ -250,6 +251,7 @@ function draw() {
       // p5.js uses the center of the object as its origin, therefore
       // we translate half the length before and after
       translate(0, -distance(start, end) / 2);
+      print(tf.x)
       if (i > 2) {
         // it is a notch
         model(notch);

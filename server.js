@@ -44,6 +44,11 @@ app.get("/task_space.obj", function(request, response) {
   response.sendFile(__dirname + "/task_space.obj");
 });
 
+app.get("/transformer.js", function(request, response) {
+  response.sendFile(__dirname + "/transformer.js");
+});
+
+
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function() {
