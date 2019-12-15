@@ -33,7 +33,7 @@ var innerMotion = {
 };
 
 var settings;
-let notch, task_space, task_space_v, tube_points, tf;
+let notch, task_space, task_space_v, hit_points, tf;
 
 function preload() {
   notch = loadModel("SingleNotch.obj");
@@ -48,7 +48,7 @@ function setup() {
     startConnection();
   }
   task_space_v = transformVertices()
-  tube_points = [];
+  hit_points = [];
 }
 
 function settingsInit() {
@@ -148,7 +148,7 @@ function transformTubePoints(p, dist, start){
 function checkForCollision(p){
   for(let i = 0; i < p.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
-      if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 90 ){
+      if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 50 ){
         print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print(dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]))
         return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
@@ -164,8 +164,8 @@ function draw() {
   background("white");
   orbitControl();
   
-  strokeWeight(3);
-  stroke("#447825");
+  //strokeWeight(3);
+  //stroke("#447825");
   //DEBUG POINT TRANSFORMATION FUNCTIONS
   
   //beginShape(POINTS);
@@ -175,10 +175,19 @@ function draw() {
   //endShape();
   //stroke("#000000");
   //beginShape(POINTS);
- // for(let i = 0; i < task_space.vertices.length; i = i + 5){
-    //vertex(task_space.vertices[i].x,task_space.vertices[i].y,task_space.vertices[i].z)
+  // for(let i = 0; i < task_space.vertices.length; i = i + 5){
+  //vertex(task_space.vertices[i].x,task_space.vertices[i].y,task_space.vertices[i].z)
   //  }
- // endShape();
+  // endShape();
+  if(hit_points){
+    strokeWeight(10);
+    stroke("#ff0000");
+    beginShape(POINTS);
+    for(let i = 0; i < hit_points.length; i++){
+        vertex(hit_points[i][0],hit_points[i][1],hit_points[i][2])
+    }
+    endShape();
+  }
   
   
   strokeWeight(2);
@@ -300,15 +309,16 @@ function draw() {
     vertex(newInnerPoints[i][0],newInnerPoints[i][1],newInnerPoints[i][2])
   }
   endShape();
-  let allPoints = [newPoints, ]
-  let vc = checkForCollision(newPoints + newInnerPoints);
+  
+  let vc = checkForCollision(newPoints);
   if(vc){
     print(vc)
-      strokeWeight(100);
-      stroke("#ff69b4");
-      beginShape(POINTS);
-      vertex(vc[0],vc[1],vc[2]);
-      endShape();
+    hit_points.push(vc)
+  }
+  let Ivc = checkForCollision(newInnerPoints);
+  if(Ivc){
+    print(Ivc)
+        hit_points.push(Ivc)
   }
     
 }
