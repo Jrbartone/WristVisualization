@@ -119,10 +119,7 @@ function tubeControl(e) {
 
 
 function transformVertices(){
-
   let theta = 1.57;
-  
-  
   let new_V
   new_V = new Array(task_space.vertices.length)
   for(let i = 0; i < task_space.vertices.length; i++){
@@ -131,9 +128,20 @@ function transformVertices(){
     let Z = task_space.vertices[i].z;
     new_V[i] = [(2*X)-200,(2*Y),(2*Z)];
   }
-  
   return new_V
-  
+}
+
+function transformTubePoints(p, dist){
+  let theta = 1.57;
+  let new_V
+  new_V = new Array(p.length)
+  for(let i = 0; i < p.length; i++){
+    let Y = p[i][1]*cos(theta) - p[i][2]*sin(theta);
+    let Z = p[i][1]*sin(theta) + p[i][2]*cos(theta);
+    let X = p[i][0];
+    new_V[i] = [(X),(Y) + dist,(Z)];
+  }
+  return new_V
 }
 
 
@@ -278,13 +286,14 @@ function draw() {
   beginShape(POINTS);
   stroke("#ff69b4");
   strokeWeight(10);
+  newPoints = transformTubePoints(points, outerMotion.advancement + );
 
   for(let i = 0; i < points.length; i++){
-    vertex(points[i][0],points[i][1],points[i][2])
+    vertex(newPoints[i][0],newPoints[i][1],newPoints[i][2]);
   }
-  for(let i = 0; i < innerPoints.length; i++){
-    vertex(innerPoints[i][0],innerPoints[i][1],innerPoints[i][2])
-  }
+//  for(let i = 0; i < innerPoints.length; i++){
+ //   vertex(innerPoints[i][0],innerPoints[i][1],innerPoints[i][2])
+//  }
   endShape();
     
 }
