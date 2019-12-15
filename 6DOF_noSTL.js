@@ -140,7 +140,11 @@ function draw() {
     innerMotion.displacement,
     innerRadians,
     innerMotion.advancement,
-    
+     kinematicsMatrix(
+      outerMotion.displacement,
+      radians,
+      outerMotion.advancement 
+    )
   );
   let innerRots = innerRotations(
     innerMotion.displacement,
