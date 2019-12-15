@@ -154,12 +154,14 @@ function transformTubePoints(p, dist, start){
 
 
 function checkForCollision(p){
+  print(distance(p[p.length - 1], task_space_v[24000]))
+  hit_points.push(task_space_v[25000])
+   hit_points.push(p[p.length - 1])
   for(let i = 0; i < p.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
       if(distance(p[i], task_space_v[j]) < 10){
-      //if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 50){
         print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]))
+        print(distance(p[i], task_space_v[j]))
         return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
       }
       else{
@@ -299,6 +301,7 @@ function draw() {
  
   //DEBUG TUBE POINT TRANSFORMATION
   pop()
+  
   beginShape(POINTS);
   stroke("#ff69b4");
   strokeWeight(15);
@@ -324,11 +327,11 @@ function draw() {
     print(vc)
     hit_points.push(vc)
   }
-  let Ivc = checkForCollision(newInnerPoints);
-  if(Ivc){
-    print(Ivc)
-        hit_points.push(Ivc)
-  }
+  //let Ivc = checkForCollision(newInnerPoints);
+ // if(Ivc){
+  //  print(Ivc)
+ //       hit_points.push(Ivc)
+ // }
     
 }
 
