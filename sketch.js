@@ -64,8 +64,7 @@ function settingsInit() {
   settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, innerMotion);
   settings.bindRange("advancement", 0, 22.5, 0, 0.1, innerMotion);
   settings.bindRange("rotation", 0, 360, 0, 1, innerMotion);
-  settings.addText("Load STL");
-  //settings.addButton("Load STL", () => console.log(gui.getValue("Date")));
+  settings.addButton("Load STL", () => console.log(gui.getValue("Date")));
   settings.addButton("Change End Effector", () => console.log(gui.getValue("Date")));
 
 }
