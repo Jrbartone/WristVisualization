@@ -4,6 +4,14 @@ transpose = a => a[0].map((x, i) => a.map(y => y[i]));
 mmultiply = (a, b) => a.map(x => transpose(b).map(y => dotproduct(x, y)));
 dotproduct = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
 
+function distance(pointOne, pointTwo) {
+  return Math.sqrt(
+    Math.pow(pointOne[0] - pointTwo[0], 2) +
+      Math.pow(pointOne[1] - pointTwo[1], 2) +
+      Math.pow(pointOne[2] - pointTwo[2], 2)
+  );
+}
+
 colors = [
   "#8dd3c7",
   "#ffcc00",
@@ -146,10 +154,10 @@ function transformTubePoints(p, dist, start){
 
 
 function checkForCollision(p){
-  print(p)
   for(let i = 0; i < p.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
-      if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 50){
+      if(distance(p[i], task_space_v[j]) < 10){
+      //if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 50){
         print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print(dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]))
         return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
@@ -235,7 +243,7 @@ function draw() {
     innerRadians,
     innerMotion.advancement,
   );
-  
+
   push()
 
   for (let i = 1; i < points.length; i++) {
