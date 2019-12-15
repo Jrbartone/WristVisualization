@@ -111,13 +111,23 @@ function tubeControl(e) {
   }
 }
 
+function transformVertices(){
+  // 1) Make every vertex into a 4x4 T matrix, say V
+  // 2) Encode the scale x2, z rotation, and YZ translation into a T matrix, say T
+  // 3) Multiply V*T and grab XYZ points from resultant matrix
+  // 4) Add those points to a new matrix of vertices to compare for collisions
+  task_space_transformed_v = task_space.vertices;
+  for(let i = 0; i < task_space_transformed_v; i++){
+    
+  }
+}
+
 
 function checkForCollision(points, innerPoints){
+  
   for(let i = 0; i < points.length; i++){
     for(let j = 0; j < task_space.vertices.length; j++){
-      if(dist(points[i][0], points[i][1], points[i][2], task_space.vertices[j].x,task_space.vertices[j].y,task_space.vertices[j].z) < 10){
-        print('COLLIDE OUTER TUBE');
-      }
+      (dist(points[i][0], points[i][1], points[i][2], task_space.vertices[j].x,task_space.vertices[j].y,task_space.vertices[j].z))
     }
   }
 }
