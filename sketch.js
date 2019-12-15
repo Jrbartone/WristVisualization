@@ -160,6 +160,7 @@ function checkForCollision(points){
 }
 
 function draw() {
+  push()
   background("white");
   orbitControl();
   let cursor = [0,0,0];
@@ -283,12 +284,13 @@ function draw() {
   }
  
   //DEBUG TUBE POINT TRANSFORMATION
+  pop()
   beginShape(POINTS);
   stroke("#ff69b4");
-  strokeWeight(10);
+  strokeWeight(15);
   newPoints = transformTubePoints(points, outerMotion.advancement + 12);
 
-  for(let i = newPoints.length; i ; i++){
+  for(let i = 1; i < newPoints.length; i++){
     vertex(newPoints[i][0],newPoints[i][1],newPoints[i][2]);
   }
 //  for(let i = 0; i < innerPoints.length; i++){
