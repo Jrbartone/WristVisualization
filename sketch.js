@@ -123,7 +123,6 @@ function draw() {
   translate(0,200,-25)
   scale(2)
   model(task_space)
-  print(model.computeFaces());
   rotateZ(-1.57);
   translate(0,-200,25)
 
@@ -171,6 +170,7 @@ function draw() {
     if (i > 2) {
       // it is a notch
       model(notch);
+      // ADD CYLINDER HITBOX HERE
     } else {
       // it is the base length or advancement
       cylinder(OD / 2, distance(start, end), 24, 16, false, false);
@@ -196,6 +196,8 @@ function draw() {
       if (i > 2) {
         // it is a notch
         model(notch);
+        // ADD CYLINDER HITBOX HERE
+
       } else {
         // it is the base length or advancement
         cylinder(OD / 2, distance(start, end), 24, 16, false, false);
