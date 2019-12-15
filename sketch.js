@@ -223,7 +223,7 @@ function draw() {
   let innerRots = innerRotations(
     innerMotion.displacement,
     innerRadians,
-    innerMotion.advancement
+    innerMotion.advancement,
   );
   
   push()
@@ -240,7 +240,6 @@ function draw() {
     // p5.js uses the center of the object as its origin, therefore
     // we translate half the length before and after
     translate(0, -distance(start, end) / 2);
-    
     if (i > 2) {
       // it is a notch
       model(notch);
