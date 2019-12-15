@@ -142,21 +142,23 @@ function transformVertices(){
 function transformTubePoints(p, dist, start){
   let theta = 1.57;
   let new_V
+  let translateY = (windowHeight / 2) * 0.95;
+  let scaleFactor = windowHeight / 60;
   new_V = new Array(p.length)
   for(let i = 0; i < p.length; i++){
     let Y = p[i][1]*cos(theta) - p[i][2]*sin(theta);
     let Z = p[i][1]*sin(theta) + p[i][2]*cos(theta);
     let X = p[i][0];
-    new_V[i] = [(X) + start[0],(Y) + start[1],(Z) + start[2]];
+    new_V[i] = [(((X) + start[0]) * scaleFactor) - 200, (((Y) + start[1]) * scaleFactor) + translateY + 36, (((Z) + start[2])*scaleFactor) + 25 ];
   }
   return new_V
 }
 
 
 function checkForCollision(p){
-  print(distance(p[p.length - 1], task_space_v[24000]))
-  hit_points.push(task_space_v[25000])
-   hit_points.push(p[p.length - 1])
+  //print(distance(p[p.length - 1], task_space_v[24000]))
+  //hit_points.push(task_space_v[25000])
+   //hit_points.push(p[p.length - 1])
   for(let i = 0; i < p.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
       if(distance(p[i], task_space_v[j]) < 10){
@@ -200,7 +202,7 @@ function draw() {
     endShape();
   }
   
-  
+  push()
   strokeWeight(2);
   stroke("#DDDDDD");
   fill(255,255,255,50);
@@ -245,8 +247,9 @@ function draw() {
     innerRadians,
     innerMotion.advancement,
   );
+   
 
-  push()
+ // push()
 
   for (let i = 1; i < points.length; i++) {
     let start = points[i - 1];
@@ -256,6 +259,7 @@ function draw() {
     rotateY(-rotation[2]);
     rotateZ(rotation[1]);
     stroke("#8DD3C7");
+    strokeWeight(2);
     fill(255,255,255,255);
     // p5.js uses the center of the object as its origin, therefore
     // we translate half the length before and after
@@ -302,7 +306,7 @@ function draw() {
   //DEBUG TUBE POINT TRANSFORMATION
   pop()
   
-  beginShape(POINTS);
+    beginShape(POINTS);
   stroke("#ff69b4");
   strokeWeight(15);
   newPoints = transformTubePoints(points, outerMotion.advancement, [0,0,0]);
@@ -321,6 +325,7 @@ function draw() {
     vertex(newInnerPoints[i][0],newInnerPoints[i][1],newInnerPoints[i][2])
   }
   endShape();
+  
   
   let vc = checkForCollision(newPoints);
   if(vc){
