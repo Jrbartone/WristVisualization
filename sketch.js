@@ -125,9 +125,9 @@ function transformVertices(){
   let new_T,new_V
   new_V = new Array(task_space.vertices.length)
   let T = [[0,-1,0,0],
-          [1,0,0,200],
-          [0,0,1,-25],
-          [0,0,0,2],
+           [1,0,0,200],
+           [0,0,1,-25],
+           [0,0,0,2],
           ];
   print(task_space.vertices.length)
   for(let i = 0; i < task_space.vertices.length; i++){
@@ -157,20 +157,27 @@ function checkForCollision(points, innerPoints){
 }
 
 function draw() {
-  //print(task_space_v[1]);
-  //print(task_space.vertices[1]);
+  background("white");
+  orbitControl();
   strokeWeight(3);
   stroke("#447825");
 
-  beginShape();
+  beginShape(POINTS);
   for(let i = 0; i < task_space_v.length; i = i + 5){
     vertex(task_space_v[i][0],task_space_v[i][1],task_space_v[i][2])
   }
   endShape();
+  
+  
+  stroke("#000000");
+  beginShape(POINTS);
+  for(let i = 0; i < task_space.vertices.length; i = i + 5){
+    vertex(task_space.vertices[i].x,task_space.vertices[i].y,task_space.vertices[i].z)
+  }
+  endShape();
+  
+  
   strokeWeight(2);
-
-  background("white");
-  orbitControl();
   stroke("#DDDDDD");
   fill(255,255,255,50);
   rotateZ(1.57)
@@ -207,7 +214,8 @@ function draw() {
     innerRadians,
     innerMotion.advancement
   );
-    
+  
+  
   for (let i = 1; i < points.length; i++) {
     let start = points[i - 1];
     let end = points[i];
@@ -259,6 +267,13 @@ function draw() {
     }
   }
   //checkForCollision(points,innerPoints);
+  beginShape(POINTS);
+  stroke("#AAAAAA");
+  for(let i = 0; i < points.length; i++){
+    vertex(points[i][0],points[i][1],points[i][2])
+  }
+  endShape();
+    
 }
 
 
