@@ -64,7 +64,7 @@ function settingsInit() {
   settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, innerMotion);
   settings.bindRange("advancement", 0, 22.5, 0, 0.1, innerMotion);
   settings.bindRange("rotation", 0, 360, 0, 1, innerMotion);
-  settings.addButton("Toggle STL", () => location.replace("./index.HTML"));
+  settings.addButton("Toggle STL", () => location.replace("./"));
   settings.addButton("Change End Effector", () => console.log(gui.getValue("Date")));
 
 }
@@ -116,48 +116,11 @@ function tubeControl(e) {
 }
 
 
-
-
-
-function checkForCollision(points){
-  for(let i = 0; i < points.length; i++){
-    for(let j = 0; j < task_space_v.length; j++){
-      if ( dist(points[i][0], points[i][1], points[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 90 ){
-        print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
-      }
-      else{
-        //print("OK")
-      }
-    }
-  }
-}
-
 function draw() {
   background("white");
   orbitControl();
-  let cursor = [0,0,0];
-  
-  //strokeWeight(3);
-  //stroke("#447825");
-  //DEBUG POINT TRANSFORMATION FUNCTIONS
-  /*
-  beginShape(POINTS);
-  for(let i = 0; i < task_space_v.length; i = i + 5){
-    //vertex(task_space_v[i][0],task_space_v[i][1],task_space_v[i][2])
-  }
-  endShape();
-  stroke("#000000");
-  beginShape(POINTS);
-  for(let i = 0; i < task_space.vertices.length; i = i + 5){
-    //vertex(task_space.vertices[i].x,task_space.vertices[i].y,task_space.vertices[i].z)
-  }
-  endShape();
-  */
-  
-
   translate(0, (windowHeight / 2) * 0.95);
-  let scaleFactor = windowHeight / 120;
+  let scaleFactor = windowHeight / 60;
   scale(scaleFactor);
   
 
@@ -224,7 +187,6 @@ function draw() {
       // p5.js uses the center of the object as its origin, therefore
       // we translate half the length before and after
       translate(0, -distance(start, end) / 2);
-      print(tf.x)
       if (i > 2) {
         // it is a notch
         model(notch);
@@ -236,27 +198,7 @@ function draw() {
       }
       translate(0, -distance(start, end) / 2);
     }
-  }
-  let vc = checkForCollision(points);
-  if(vc){
-    print(vc)
-      strokeWeight(100);
-      stroke("#ff69b4");
-      beginShape(POINTS);
-      vertex(vc[0],vc[1],vc[2]);
-      endShape();
-  }
- 
-  //DEBUG TUBE POINT TRANSFORMATION
-  beginShape(POINTS);
-  stroke("#ff69b4");
-  strokeWeight(10);
-
-  for(let i = 0; i < points.length; i++){
-   // vertex(points[i][0],points[i][1],points[i][2])
-  }
-  endShape();
-    
+  }   
 }
 
 
