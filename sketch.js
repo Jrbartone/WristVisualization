@@ -112,6 +112,12 @@ function tubeControl(e) {
 }
 
 
+function getCurrentPosition(obj) {
+  obj.vertices 
+  
+}
+
+
 
 function draw() {
   
@@ -122,7 +128,7 @@ function draw() {
   rotateZ(1.57)
   translate(0,200,-25)
   scale(2)
-  throat = model(task_space);
+  model(task_space);
   rotateZ(-1.57);
   translate(0,-200,25)
   scale(1)
@@ -205,6 +211,8 @@ function draw() {
     }
   }
 }
+
+
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
