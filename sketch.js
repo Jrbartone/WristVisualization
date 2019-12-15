@@ -32,7 +32,7 @@ var innerMotion = {
 };
 
 var settings;
-let notch, task_space, task_space_v;
+let notch, task_space, task_space_v, tube_points;
 
 function preload() {
   notch = loadModel("SingleNotch.obj");
@@ -47,6 +47,7 @@ function setup() {
     startConnection();
   }
   task_space_v = transformVertices()
+  tube_points = [];
 }
 
 function settingsInit() {
@@ -135,7 +136,7 @@ function transformVertices(){
 }
 
 
-function checkForCollision(points, innerPoints){
+function checkForCollision(points){
   for(let i = 0; i < points.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
       if ( dist(points[i][0], points[i][1], points[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 90 ){
@@ -152,6 +153,7 @@ function checkForCollision(points, innerPoints){
 function draw() {
   background("white");
   orbitControl();
+  let cursor = [0,0,0];
   
   //strokeWeight(3);
   //stroke("#447825");
@@ -221,6 +223,7 @@ function draw() {
     // p5.js uses the center of the object as its origin, therefore
     // we translate half the length before and after
     translate(0, -distance(start, end) / 2);
+    
     if (i > 2) {
       // it is a notch
       model(notch);
@@ -259,7 +262,7 @@ function draw() {
       translate(0, -distance(start, end) / 2);
     }
   }
-  let vc = checkForCollision(points,innerPoints);
+  let vc = checkForCollision(points);
   if(vc){
     print(vc)
       strokeWeight(100);
@@ -275,7 +278,7 @@ function draw() {
   strokeWeight(10);
 
   for(let i = 0; i < points.length; i++){
-    vertex(points[i][0],points[i][1],points[i][2])
+   // vertex(points[i][0],points[i][1],points[i][2])
   }
   endShape();
     
