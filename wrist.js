@@ -84,7 +84,7 @@ function kinematicsPoints(tDispl, tubeRot, tubeAdv) {
 
 function innerKinematicsPoints(tDispl, tubeRot, tubeAdv, tStart) {
   let result = [];
-  result[0] = [0, 0, 0];
+  result[0] = coordinates(tStart);
   let currentMatrix = mmultiply(tStart, zRotation(tubeRot));
   currentMatrix = mmultiply(currentMatrix, zTranslation(tubeAdv));
 

@@ -217,7 +217,7 @@ function draw() {
     kinematicsMatrix(
       outerMotion.displacement,
       radians,
-      outerMotion.advancement
+      outerMotion.advancement - 12
     )
   );
   let innerRots = innerRotations(
@@ -284,14 +284,14 @@ function draw() {
   beginShape(POINTS);
   stroke("#ff69b4");
   strokeWeight(15);
-  newPoints = transformTubePoints(points, outerMotion.advancement + 12, [0,0,0]);
-  newInnerPoints = transformTubePoints(innerPoints, 0,  [0,0,0]);
+  newPoints = transformTubePoints(points, outerMotion.advancement, [0,0,0]);
+  newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement ,  newPoints[newPoints.length - 1]);
 
 
-  for(let i = 1; i < newPoints.length; i++){
+  for(let i = 0; i < newPoints.length; i++){
     vertex(newPoints[i][0],newPoints[i][1],newPoints[i][2]);
   }
-  for(let i = 1; i < newInnerPoints.length; i++){
+  for(let i = 0; i < newInnerPoints.length; i++){
     vertex(newInnerPoints[i][0],newInnerPoints[i][1],newInnerPoints[i][2])
   }
   endShape();
