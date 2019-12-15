@@ -139,7 +139,7 @@ function transformTubePoints(p, dist){
     let Y = p[i][1]*cos(theta) - p[i][2]*sin(theta);
     let Z = p[i][1]*sin(theta) + p[i][2]*cos(theta);
     let X = p[i][0];
-    new_V[i] = [(X),(Y) + dist,(Z)];
+    new_V[i] = [(X),(Y),(Z)];
   }
   return new_V
 }
@@ -160,7 +160,6 @@ function checkForCollision(points){
 }
 
 function draw() {
-  push()
   background("white");
   orbitControl();
   let cursor = [0,0,0];
@@ -222,7 +221,8 @@ function draw() {
     innerMotion.advancement
   );
   
-  
+  push()
+
   for (let i = 1; i < points.length; i++) {
     let start = points[i - 1];
     let end = points[i];
@@ -289,13 +289,15 @@ function draw() {
   stroke("#ff69b4");
   strokeWeight(15);
   newPoints = transformTubePoints(points, outerMotion.advancement + 12);
+  newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement + outerMotion.displacement + 24);
+
 
   for(let i = 1; i < newPoints.length; i++){
     vertex(newPoints[i][0],newPoints[i][1],newPoints[i][2]);
   }
-//  for(let i = 0; i < innerPoints.length; i++){
- //   vertex(innerPoints[i][0],innerPoints[i][1],innerPoints[i][2])
-//  }
+  for(let i = 1; i < newInnerPoints.length; i++){
+    vertex(newInnerPoints[i][0],newInnerPoints[i][1],newInnerPoints[i][2])
+  }
   endShape();
     
 }
