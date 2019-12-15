@@ -159,6 +159,15 @@ function checkForCollision(points, innerPoints){
 function draw() {
   //print(task_space_v[1]);
   //print(task_space.vertices[1]);
+  strokeWeight(3);
+  stroke("#447825");
+
+  beginShape();
+  for(let i = 0; i < task_space_v.length; i = i + 5){
+    vertex(task_space_v[i][0],task_space_v[i][1],task_space_v[i][2])
+  }
+  endShape();
+  strokeWeight(2);
 
   background("white");
   orbitControl();
@@ -249,7 +258,7 @@ function draw() {
       translate(0, -distance(start, end) / 2);
     }
   }
-  checkForCollision(points,innerPoints);
+  //checkForCollision(points,innerPoints);
 }
 
 
