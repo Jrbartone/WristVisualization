@@ -33,11 +33,10 @@ var innerMotion = {
 };
 
 var settings;
-let notch, task_space, task_space_v, tube_points, tf;
+let notch;
 
 function preload() {
   notch = loadModel("SingleNotch.obj");
-  task_space = loadModel('task_space.obj', true);
 }
 
 function setup() {
@@ -47,7 +46,6 @@ function setup() {
   if (location.protocol != "https:") {
     startConnection();
   }
-  task_space_v = transformVertices()
   tube_points = [];
 }
 
@@ -66,7 +64,7 @@ function settingsInit() {
   settings.bindRange("displacement", 0.000001, 1, 0.000001, 0.001, innerMotion);
   settings.bindRange("advancement", 0, 22.5, 0, 0.1, innerMotion);
   settings.bindRange("rotation", 0, 360, 0, 1, innerMotion);
-  settings.addButton("Toggle STL", () => location.replace("./6DOF_noSTL.HTML"));
+  settings.addButton("Toggle STL", () => location.replace("./index.HTML"));
   settings.addButton("Change End Effector", () => console.log(gui.getValue("Date")));
 
 }
@@ -118,23 +116,7 @@ function tubeControl(e) {
 }
 
 
-function transformVertices(){
 
-  let theta = 1.57;
-  
-  
-  let new_V
-  new_V = new Array(task_space.vertices.length)
-  for(let i = 0; i < task_space.vertices.length; i++){
-    let X = task_space.vertices[i].x*cos(theta) - task_space.vertices[i].y*sin(theta);
-    let Y = task_space.vertices[i].x*sin(theta) + task_space.vertices[i].y*cos(theta);
-    let Z = task_space.vertices[i].z;
-    new_V[i] = [(2*X)-200,(2*Y),(2*Z)];
-  }
-  
-  return new_V
-  
-}
 
 
 function checkForCollision(points){
@@ -173,18 +155,7 @@ function draw() {
   endShape();
   */
   
-  strokeWeight(2);
-  stroke("#DDDDDD");
-  fill(255,255,255,50);
-  rotateZ(1.57)
-  translate(0,200,-25)
-  scale(2)
-  model(task_space);
-  
-  //
-  rotateZ(-1.57);
-  translate(0,-200,25)
-  scale(1)
+
   translate(0, (windowHeight / 2) * 0.95);
   let scaleFactor = windowHeight / 120;
   scale(scaleFactor);

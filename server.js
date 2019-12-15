@@ -16,6 +16,18 @@ app.get("/", function(request, response) {
   response.sendFile(__dirname + "/views/index.html");
 });
 
+app.get("/6DOF_noSTL.html", function(request, response) {
+  response.sendFile(__dirname + "/views/6DOF_noSTL.html");
+});
+
+app.get("/sketch.js", function(request, response) {
+  response.sendFile(__dirname + "/sketch.js");
+});
+
+app.get("/6DOF_noSTL.js", function(request, response) {
+  response.sendFile(__dirname + "/6DOF_noSTL.js");
+});
+
 app.get("/sketch.js", function(request, response) {
   response.sendFile(__dirname + "/sketch.js");
 });
