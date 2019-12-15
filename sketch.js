@@ -134,7 +134,7 @@ function transformVertices(){
     let X = task_space.vertices[i].x*cos(theta) - task_space.vertices[i].y*sin(theta);
     let Y = task_space.vertices[i].x*sin(theta) + task_space.vertices[i].y*cos(theta);
     let Z = task_space.vertices[i].z;
-    new_V[i] = [(2*X)-200,(2*Y),(2*Z)];
+    new_V[i] = [(2*X)-200,(2*Y),(2*Z) - 25];
   }
   return new_V
 }
@@ -149,7 +149,7 @@ function transformTubePoints(p, dist, start){
     let Y = p[i][1]*cos(theta) - p[i][2]*sin(theta);
     let Z = p[i][1]*sin(theta) + p[i][2]*cos(theta);
     let X = p[i][0];
-    new_V[i] = [(((X) + start[0]) * scaleFactor) - 200, (((Y) + start[1]) * scaleFactor) + translateY + 36, (((Z) + start[2])*scaleFactor) + 25 ];
+    new_V[i] = [(((X) + start[0]) * scaleFactor) - 200, (((Y) + start[1]) ) + translateY + 36, (((Z) + start[2])*scaleFactor) + 25 ];
   }
   return new_V
 }
@@ -161,7 +161,7 @@ function checkForCollision(p){
    //hit_points.push(p[p.length - 1])
   for(let i = 0; i < p.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
-      if(distance(p[i], task_space_v[j]) < 10){
+      if(distance(p[i], task_space_v[j]) < 20){
         print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print(distance(p[i], task_space_v[j]))
         return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
@@ -224,7 +224,7 @@ function draw() {
   let points = kinematicsPoints(
     outerMotion.displacement,
     radians,
-    outerMotion.advancement
+    outerMotion.advancement - .5
   );
   let rots = rotations(
     outerMotion.displacement,
@@ -239,7 +239,7 @@ function draw() {
     kinematicsMatrix(
       outerMotion.displacement,
       radians,
-      -12
+      outerMotion.advancement - 1
     )
   );
   let innerRots = innerRotations(
@@ -311,7 +311,7 @@ function draw() {
   strokeWeight(15);
   newPoints = transformTubePoints(points, outerMotion.advancement, [0,0,0]);
   if(innerMotion.advancement > 0){
-    newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement,  newPoints[newPoints.length - 1]);
+    newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement,  [0,0,0]);// newPoints[newPoints.length - 1]);
   }
   else{
     newInnerPoints = [];
@@ -332,11 +332,11 @@ function draw() {
     print(vc)
     hit_points.push(vc)
   }
-  //let Ivc = checkForCollision(newInnerPoints);
- // if(Ivc){
-  //  print(Ivc)
- //       hit_points.push(Ivc)
- // }
+  let Ivc = checkForCollision(newInnerPoints);
+  if(Ivc){
+    print(Ivc)
+       hit_points.push(Ivc)
+  }
     
 }
 
