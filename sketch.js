@@ -146,9 +146,10 @@ function transformTubePoints(p, dist, start){
 
 
 function checkForCollision(p){
+  print(p)
   for(let i = 0; i < p.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
-      if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 50 ){
+      if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 50){
         print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print(dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]))
         return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
@@ -169,8 +170,8 @@ function draw() {
   //DEBUG POINT TRANSFORMATION FUNCTIONS
   
   //beginShape(POINTS);
-  //for(let i = 0; i < task_space_v.length; i = i + 5){
-    //vertex(task_space_v[i][0],task_space_v[i][1],task_space_v[i][2])
+  //for(let i = 0; i < task_space_v.length; i = i + 10){
+  // vertex(task_space_v[i][0],task_space_v[i][1],task_space_v[i][2])
   //}
   //endShape();
   //stroke("#000000");

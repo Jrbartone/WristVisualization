@@ -92,7 +92,7 @@ function innerKinematicsPoints(tDispl, tubeRot, tubeAdv, tStart) {
   currentMatrix = mmultiply(currentMatrix, zTranslation(IbaseLength));
   result[2] = coordinates(currentMatrix);
 
-  let notch = innerNotchKinematics(tDispl);
+  let notch = notchKinematics(tDispl);
   for (let i = 3; i < InCutouts + 3; i++) {
     currentMatrix = mmultiply(currentMatrix, notch);
     result[i] = coordinates(currentMatrix);
@@ -116,7 +116,7 @@ function innerRotations(tDispl, tubeRot, tubeAdv) {
   let result = [];
   result[0] = [0, 0, tubeRot];
   result[1] = [0, 0, 0];
-  let notchAngle = Math.acos(innerNotchKinematics(tDispl)[0][0]);
+  let notchAngle = Math.acos(notchKinematics(tDispl)[0][0]);
   for (let i = 2; i < InCutouts + 2; i++) {
     result[i] = [0, notchAngle, 0];
   }
