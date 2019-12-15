@@ -139,17 +139,17 @@ function transformVertices(){
   return new_V
 }
 
-function transformTubePoints(p, dist, start){
+function transformTubePoints(p, dist, start, scale){
   let theta = 1.57;
   let new_V
   let translateY = (windowHeight / 2) * 0.95;
-  let scaleFactor = windowHeight / 60;
+  let scaleFactor = (windowHeight / 60) * scale;
   new_V = new Array(p.length)
   for(let i = 0; i < p.length; i++){
     let Y = p[i][1]*cos(theta) - p[i][2]*sin(theta);
     let Z = p[i][1]*sin(theta) + p[i][2]*cos(theta);
     let X = p[i][0];
-    new_V[i] = [(((X) + start[0]) * scaleFactor) - 200, (((Y) + start[1]) ) + translateY + 36, (((Z) + start[2])*scaleFactor) + 25 ];
+    new_V[i] = [(((X) + start[0]) * scaleFactor) - 200, (((Y) + start[1]) * scaleFactor) + translateY + 36, (((Z) + start[2])*scaleFactor) + 25 ];
   }
   return new_V
 }
@@ -161,7 +161,7 @@ function checkForCollision(p){
    //hit_points.push(p[p.length - 1])
   for(let i = 0; i < p.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
-      if(distance(p[i], task_space_v[j]) < 20){
+      if(distance(p[i], task_space_v[j]) < 18){
         print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print(distance(p[i], task_space_v[j]))
         return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
@@ -224,7 +224,7 @@ function draw() {
   let points = kinematicsPoints(
     outerMotion.displacement,
     radians,
-    outerMotion.advancement - .5
+    outerMotion.advancement 
   );
   let rots = rotations(
     outerMotion.displacement,
@@ -239,7 +239,7 @@ function draw() {
     kinematicsMatrix(
       outerMotion.displacement,
       radians,
-      outerMotion.advancement - 1
+      outerMotion.advancement 
     )
   );
   let innerRots = innerRotations(
@@ -309,9 +309,9 @@ function draw() {
     beginShape(POINTS);
   stroke("#ff69b4");
   strokeWeight(15);
-  newPoints = transformTubePoints(points, outerMotion.advancement, [0,0,0]);
+  newPoints = transformTubePoints(points, outerMotion.advancement, [0,0,0], 1);
   if(innerMotion.advancement > 0){
-    newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement,  [0,0,0]);// newPoints[newPoints.length - 1]);
+    newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement,  [0,0,0], .92);// newPoints[newPoints.length - 1]);
   }
   else{
     newInnerPoints = [];
@@ -319,10 +319,10 @@ function draw() {
 
 
   for(let i = 0; i < newPoints.length; i++){
-    vertex(newPoints[i][0],newPoints[i][1],newPoints[i][2]);
+    //vertex(newPoints[i][0],newPoints[i][1],newPoints[i][2]);
   }
   for(let i = 0; i < newInnerPoints.length; i++){
-    vertex(newInnerPoints[i][0],newInnerPoints[i][1],newInnerPoints[i][2])
+   // vertex(newInnerPoints[i][0],newInnerPoints[i][1],newInnerPoints[i][2])
   }
   endShape();
   

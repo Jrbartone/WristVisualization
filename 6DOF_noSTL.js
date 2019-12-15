@@ -139,7 +139,8 @@ function draw() {
   let innerPoints = innerKinematicsPoints(
     innerMotion.displacement,
     innerRadians,
-    innerMotion.advancement
+    innerMotion.advancement,
+    
   );
   let innerRots = innerRotations(
     innerMotion.displacement,
