@@ -280,7 +280,10 @@ function draw() {
   strokeWeight(10);
 
   for(let i = 0; i < points.length; i++){
-   // vertex(points[i][0],points[i][1],points[i][2])
+    vertex(points[i][0],points[i][1],points[i][2])
+  }
+  for(let i = 0; i < innerPoints.length; i++){
+    vertex(innerPoints[i][0],innerPoints[i][1],innerPoints[i][2])
   }
   endShape();
     
