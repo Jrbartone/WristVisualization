@@ -48,6 +48,23 @@ function forwardKinematics(tDispl, tubeRot, tubeAdv) {
   return result;
 }
 
+function kinematicsMatrix(tDispl, tubeRot, tubeAdv) {
+  let result = [];
+  result[0] = [0, 0, 0];
+  let currentMatrix = zRotation(tubeRot);
+  currentMatrix = mmultiply(currentMatrix, zTranslation(tubeAdv));
+  result[1] = coordinates(currentMatrix);
+  currentMatrix = mmultiply(currentMatrix, zTranslation(baseLength));
+  result[2] = coordinates(currentMatrix);
+
+  let notch = notchKinematics(tDispl);
+  for (let i = 3; i < nCutouts + 3; i++) {
+    currentMatrix = mmultiply(currentMatrix, notch);
+    result[i] = coordinates(currentMatrix);
+  }
+  return currentMatrix;
+}
+
 function kinematicsPoints(tDispl, tubeRot, tubeAdv) {
   let result = [];
   result[0] = [0, 0, 0];
@@ -65,10 +82,11 @@ function kinematicsPoints(tDispl, tubeRot, tubeAdv) {
   return result;
 }
 
-function innerKinematicsPoints(tDispl, tubeRot, tubeAdv) {
+function innerKinematicsPoints(tDispl, tubeRot, tubeAdv, tStart) {
   let result = [];
   result[0] = [0, 0, 0];
   let currentMatrix = zRotation(tubeRot);
+  currentMatrix = mmultiply(currentMatrix, tStart);
   currentMatrix = mmultiply(currentMatrix, zTranslation(tubeAdv));
   result[1] = coordinates(currentMatrix);
   currentMatrix = mmultiply(currentMatrix, zTranslation(IbaseLength));

@@ -213,7 +213,12 @@ function draw() {
   let innerPoints = innerKinematicsPoints(
     innerMotion.displacement,
     innerRadians,
-    innerMotion.advancement
+    innerMotion.advancement,
+    kinematicsMatrix(
+      outerMotion.displacement,
+      radians,
+      outerMotion.advancement
+    )
   );
   let innerRots = innerRotations(
     innerMotion.displacement,
@@ -228,7 +233,7 @@ function draw() {
     let end = points[i];
     let rotation = rots[i - 1];
     rotateX(rotation[0]);
-    rotateY(rotation[2]);
+    rotateY(-rotation[2]);
     rotateZ(rotation[1]);
     stroke("#8DD3C7");
     fill(255,255,255,255);
@@ -255,7 +260,7 @@ function draw() {
       let end = innerPoints[i];
       let rotation = innerRots[i - 1];
       rotateX(rotation[0]);
-      rotateY(rotation[2]);
+      rotateY(-rotation[2]);
       rotateZ(rotation[1]);
       stroke("#FB8072");
       // p5.js uses the center of the object as its origin, therefore
@@ -273,15 +278,7 @@ function draw() {
       translate(0, -distance(start, end) / 2);
     }
   }
-  let vc = checkForCollision(points);
-  if(vc){
-    print(vc)
-      strokeWeight(100);
-      stroke("#ff69b4");
-      beginShape(POINTS);
-      vertex(vc[0],vc[1],vc[2]);
-      endShape();
-  }
+  
  
   //DEBUG TUBE POINT TRANSFORMATION
   pop()
@@ -289,7 +286,7 @@ function draw() {
   stroke("#ff69b4");
   strokeWeight(15);
   newPoints = transformTubePoints(points, outerMotion.advancement + 12, [0,0,0]);
-  newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement + outerMotion.displacement + 24, newPoints[newPoints.length - 1]);
+  newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement + outerMotion.advancement, newPoints[newPoints.length - 1]);
 
 
   for(let i = 1; i < newPoints.length; i++){
@@ -299,6 +296,16 @@ function draw() {
     vertex(newInnerPoints[i][0],newInnerPoints[i][1],newInnerPoints[i][2])
   }
   endShape();
+  
+  let vc = checkForCollision(newPoints);
+  if(vc){
+    print(vc)
+      strokeWeight(100);
+      stroke("#ff69b4");
+      beginShape(POINTS);
+      vertex(vc[0],vc[1],vc[2]);
+      endShape();
+  }
     
 }
 
