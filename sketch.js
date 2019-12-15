@@ -145,10 +145,10 @@ function transformTubePoints(p, dist, start){
 }
 
 
-function checkForCollision(points){
-  for(let i = 0; i < points.length; i++){
+function checkForCollision(p){
+  for(let i = 0; i < p.length; i++){
     for(let j = 0; j < task_space_v.length; j++){
-      if ( dist(points[i][0], points[i][1], points[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 90 ){
+      if ( dist(p[i][0], p[i][1], p[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 10 ){
         print("COLLISION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         return [task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]]
       }
@@ -162,24 +162,23 @@ function checkForCollision(points){
 function draw() {
   background("white");
   orbitControl();
-  let cursor = [0,0,0];
   
-  //strokeWeight(3);
-  //stroke("#447825");
+  strokeWeight(3);
+  stroke("#447825");
   //DEBUG POINT TRANSFORMATION FUNCTIONS
-  /*
+  
   beginShape(POINTS);
   for(let i = 0; i < task_space_v.length; i = i + 5){
     //vertex(task_space_v[i][0],task_space_v[i][1],task_space_v[i][2])
   }
   endShape();
-  stroke("#000000");
-  beginShape(POINTS);
-  for(let i = 0; i < task_space.vertices.length; i = i + 5){
+  //stroke("#000000");
+  //beginShape(POINTS);
+ // for(let i = 0; i < task_space.vertices.length; i = i + 5){
     //vertex(task_space.vertices[i].x,task_space.vertices[i].y,task_space.vertices[i].z)
-  }
-  endShape();
-  */
+//  }
+ // endShape();
+  
   
   strokeWeight(2);
   stroke("#DDDDDD");
@@ -217,7 +216,7 @@ function draw() {
     kinematicsMatrix(
       outerMotion.displacement,
       radians,
-      outerMotion.advancement - 12
+      -12
     )
   );
   let innerRots = innerRotations(
@@ -285,7 +284,12 @@ function draw() {
   stroke("#ff69b4");
   strokeWeight(15);
   newPoints = transformTubePoints(points, outerMotion.advancement, [0,0,0]);
-  newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement ,  newPoints[newPoints.length - 1]);
+  if(innerMotion.advancement > 0){
+    newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement,  newPoints[newPoints.length - 1]);
+  }
+  else{
+    newInnerPoints = [];
+  }
 
 
   for(let i = 0; i < newPoints.length; i++){
