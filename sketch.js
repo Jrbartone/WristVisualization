@@ -262,19 +262,23 @@ function draw() {
   }
   let vc = checkForCollision(points,innerPoints);
   if(vc){
-      beginShape(POINTS);
+    print(vc)
+      strokeWeight(100);
       stroke("#ff69b4");
+      beginShape(POINTS);
       vertex(vc[0],vc[1],vc[2]);
       endShape();
   }
  
   //DEBUG TUBE POINT TRANSFORMATION
-  //beginShape(POINTS);
-  //stroke("#ff69b4");
-  //for(let i = 0; i < points.length; i++){
-    //vertex(points[i][0],points[i][1],points[i][2])
-  //}
-  //endShape();
+  beginShape(POINTS);
+  stroke("#ff69b4");
+  strokeWeight(10);
+
+  for(let i = 0; i < points.length; i++){
+    vertex(points[i][0],points[i][1],points[i][2])
+  }
+  endShape();
     
 }
 
