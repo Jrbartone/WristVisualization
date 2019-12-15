@@ -286,7 +286,7 @@ function draw() {
   stroke("#ff69b4");
   strokeWeight(15);
   newPoints = transformTubePoints(points, outerMotion.advancement + 12, [0,0,0]);
-  newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement + outerMotion.advancement, newPoints[newPoints.length - 1]);
+  newInnerPoints = transformTubePoints(innerPoints, 0,  [0,0,0]);
 
 
   for(let i = 1; i < newPoints.length; i++){
