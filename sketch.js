@@ -248,7 +248,6 @@ function draw() {
       rotateX(rotation[0]);
       rotateY(rotation[2]);
       rotateZ(rotation[1]);
-
       stroke("#FB8072");
       // p5.js uses the center of the object as its origin, therefore
       // we translate half the length before and after
