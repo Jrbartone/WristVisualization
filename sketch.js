@@ -114,6 +114,7 @@ function tubeControl(e) {
 
 
 function draw() {
+  
   background("white");
   orbitControl();
   stroke("#DDDDDD");
@@ -122,6 +123,7 @@ function draw() {
   translate(0,200,-25)
   scale(2)
   model(task_space)
+  print(model.computeFaces());
   rotateZ(-1.57);
   translate(0,-200,25)
 
