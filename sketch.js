@@ -1,4 +1,5 @@
 /*jshint esversion: 6 */
+mmultiply = (a, b) => a.map(x => transpose(b).map(y => dotproduct(x, y)));
 
 colors = [
   "#8dd3c7",
@@ -111,15 +112,31 @@ function tubeControl(e) {
   }
 }
 
+
 function transformVertices(){
   // 1) Make every vertex into a 4x4 T matrix, say V
   // 2) Encode the scale x2, z rotation, and YZ translation into a T matrix, say T
   // 3) Multiply V*T and grab XYZ points from resultant matrix
   // 4) Add those points to a new matrix of vertices to compare for collisions
+  
+  T = [[0,-1,0,0],
+       [1,0,0,200],
+       [0,0,1,-25],
+       [0,0,0,2],
+       ];
+  
   task_space_transformed_v = task_space.vertices;
-  for(let i = 0; i < task_space_transformed_v; i++){
-    
+  for(let i = 0; i < task_space.vertices.size; i++){
+    V = [[1,0,0,task_space.vertices[i].x],
+          [0,1,0,task_space.vertices[i].y],
+          [0,0,1,task_space.vertices[i].z],
+          [0,0,0,1],
+       ];
+    let new_T = mmultiply(V,T);
+    task_space_transformed_v[i] = [new_T[0][3], new_T[1][3], new_T[2][3]];
   }
+  
+  print(task_space_transformed_v)
 }
 
 
@@ -132,6 +149,7 @@ function checkForCollision(points, innerPoints){
   }
 }
 
+transformVertices()
 function draw() {
   
   background("white");
