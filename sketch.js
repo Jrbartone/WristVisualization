@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
-let transpose = a => a[0].map((x, i) => a.map(y => y[i]));
-let mmultiply = (a, b) => a.map(x => transpose(b).map(y => dotproduct(x, y)));
-let dotproduct = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
+transpose = a => a[0].map((x, i) => a.map(y => y[i]));
+mmultiply = (a, b) => a.map(x => transpose(b).map(y => dotproduct(x, y)));
+dotproduct = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
 
 colors = [
   "#8dd3c7",
@@ -32,7 +32,7 @@ var innerMotion = {
 };
 
 var settings;
-let notch, task_space;
+let notch, task_space, task_space_v;
 
 function preload() {
   notch = loadModel("SingleNotch.obj");
@@ -46,6 +46,7 @@ function setup() {
   if (location.protocol != "https:") {
     startConnection();
   }
+  task_space_v = transformVertices()
 }
 
 function settingsInit() {
@@ -122,14 +123,15 @@ function transformVertices(){
   // 3) Multiply V*T and grab XYZ points from resultant matrix
   // 4) Add those points to a new matrix of vertices to compare for collisions
   let new_T,new_V
-  new_V = new Array(task_space.vertices.size)
+  new_V = new Array(task_space.vertices.length)
   let T = [[0,-1,0,0],
           [1,0,0,200],
           [0,0,1,-25],
           [0,0,0,2],
           ];
-  
-  for(let i = 0; i < task_space.vertices.size; i++){
+  print(task_space.vertices.length)
+  for(let i = 0; i < task_space.vertices.length; i++){
+    
     let V = [[1,0,0,task_space.vertices[i].x],
           [0,1,0,task_space.vertices[i].y],
           [0,0,1,task_space.vertices[i].z],
@@ -146,16 +148,17 @@ function transformVertices(){
 
 function checkForCollision(points, innerPoints){
   for(let i = 0; i < points.length; i++){
-    for(let j = 0; j < task_space.vertices.length; j++){
-      (dist(points[i][0], points[i][1], points[i][2], task_space.vertices[j].x,task_space.vertices[j].y,task_space.vertices[j].z))
+    for(let j = 0; j < task_space_v.length; j++){
+      if ( dist(points[i][0], points[i][1], points[i][2], task_space_v[j][0],task_space_v[j][1],task_space_v[j][2]) < 50 ){
+        print("COLLISION")
+      }
     }
   }
 }
 
 function draw() {
-  let VVV = transformVertices()
-  print(VVV);
-  print(task_space.vertices[1]);
+  //print(task_space_v[1]);
+  //print(task_space.vertices[1]);
 
   background("white");
   orbitControl();
