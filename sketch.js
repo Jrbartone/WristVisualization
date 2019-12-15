@@ -112,12 +112,15 @@ function tubeControl(e) {
 }
 
 
-function getCurrentPosition(obj) {
-  obj.vertices 
-  
+function checkForCollision(points, innerPoints){
+  for(let i = 0; i < points.length; i++){
+    for(let j = 0; j < task_space.vertices.length; j++){
+      if(dist(points[i][0], points[i][1], points[i][2], task_space.vertices[j].x,task_space.vertices[j].y,task_space.vertices[j].z) < 10){
+        print('COLLIDE OUTER TUBE');
+      }
+    }
+  }
 }
-
-
 
 function draw() {
   
@@ -210,6 +213,7 @@ function draw() {
       translate(0, -distance(start, end) / 2);
     }
   }
+  checkForCollision(points,innerPoints);
 }
 
 
