@@ -131,7 +131,7 @@ function transformVertices(){
   return new_V
 }
 
-function transformTubePoints(p, dist){
+function transformTubePoints(p, dist, start){
   let theta = 1.57;
   let new_V
   new_V = new Array(p.length)
@@ -139,7 +139,7 @@ function transformTubePoints(p, dist){
     let Y = p[i][1]*cos(theta) - p[i][2]*sin(theta);
     let Z = p[i][1]*sin(theta) + p[i][2]*cos(theta);
     let X = p[i][0];
-    new_V[i] = [(X),(Y),(Z)];
+    new_V[i] = [(X) + start[0],(Y) + start[1],(Z) + start[2]];
   }
   return new_V
 }
@@ -288,8 +288,8 @@ function draw() {
   beginShape(POINTS);
   stroke("#ff69b4");
   strokeWeight(15);
-  newPoints = transformTubePoints(points, outerMotion.advancement + 12);
-  newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement + outerMotion.displacement + 24);
+  newPoints = transformTubePoints(points, outerMotion.advancement + 12, [0,0,0]);
+  newInnerPoints = transformTubePoints(innerPoints, innerMotion.advancement + outerMotion.displacement + 24, newPoints[newPoints.length - 1]);
 
 
   for(let i = 1; i < newPoints.length; i++){
