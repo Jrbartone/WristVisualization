@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
-transpose = a => a[0].map((x, i) => a.map(y => y[i]));
-mmultiply = (a, b) => a.map(x => transpose(b).map(y => dotproduct(x, y)));
-dotproduct = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
+let transpose = a => a[0].map((x, i) => a.map(y => y[i]));
+let mmultiply = (a, b) => a.map(x => transpose(b).map(y => dotproduct(x, y)));
+let dotproduct = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
 
 colors = [
   "#8dd3c7",
@@ -31,14 +31,12 @@ var innerMotion = {
   rotation: 0
 };
 
-var settings,task_space_transformed_v;
+var settings;
 let notch, task_space;
 
 function preload() {
   notch = loadModel("SingleNotch.obj");
   task_space = loadModel('task_space.obj', true);
-  task_space_transformed_v = transformVertices(task_space)
-
 }
 
 function setup() {
@@ -118,19 +116,19 @@ function tubeControl(e) {
 }
 
 
-function transformVertices(task_space){
+function transformVertices(){
   // 1) Make every vertex into a 4x4 T matrix, say V
   // 2) Encode the scale x2, z rotation, and YZ translation into a T matrix, say T
   // 3) Multiply V*T and grab XYZ points from resultant matrix
   // 4) Add those points to a new matrix of vertices to compare for collisions
-  let new_T
+  let new_T,new_V
+  new_V = new Array(task_space.vertices.size)
   let T = [[0,-1,0,0],
-       [1,0,0,200],
-       [0,0,1,-25],
-       [0,0,0,2],
-       ];
+          [1,0,0,200],
+          [0,0,1,-25],
+          [0,0,0,2],
+          ];
   
-  task_space_transformed_v = task_space.vertices;
   for(let i = 0; i < task_space.vertices.size; i++){
     let V = [[1,0,0,task_space.vertices[i].x],
           [0,1,0,task_space.vertices[i].y],
@@ -138,16 +136,15 @@ function transformVertices(task_space){
           [0,0,0,1],
        ];
     let new_T = mmultiply(V,T);
-    print(V)
-    task_space_transformed_v[i] = [new_T[0][3], new_T[1][3], new_T[2][3]];
+    new_V[i] = [new_T[0][3], new_T[1][3], new_T[2][3]];
   }
   
- return task_space_transformed_v
+  return new_V
+  
 }
 
 
 function checkForCollision(points, innerPoints){
-  
   for(let i = 0; i < points.length; i++){
     for(let j = 0; j < task_space.vertices.length; j++){
       (dist(points[i][0], points[i][1], points[i][2], task_space.vertices[j].x,task_space.vertices[j].y,task_space.vertices[j].z))
@@ -156,7 +153,8 @@ function checkForCollision(points, innerPoints){
 }
 
 function draw() {
-  print(task_space_transformed_v[1]);
+  let VVV = transformVertices()
+  print(VVV);
   print(task_space.vertices[1]);
 
   background("white");
